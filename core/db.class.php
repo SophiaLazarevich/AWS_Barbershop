@@ -17,6 +17,7 @@ class DB
 		$this->dbname   = 'hairstyle';
 		$this->dblogin  = 'hairstyle';
 		$this->dbpass   = 'mxCuSLSv4GR6hL49';
+		try {
 		$this->connect  = new PDO(
 			sprintf(
 				'mysql:host=%s;dbname=%s',
@@ -26,6 +27,10 @@ class DB
 			$this->dblogin,
 			$this->dbpass
 		);
+		} catch (Exception $e) {
+			echo "<p>Не удалось подключиться к серверу базы данных: {$e->getMessage()}<p>";
+			exit(1);
+		}
 	}
 
 	public function delete($value='', $id)

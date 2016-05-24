@@ -10,8 +10,16 @@ class Loader
 		
 	}
 
-	public function setPlaceholders($input, $from, $to) {
-		return str_replace('{{'.$from.'}}', $to, $input);
+	public function setPlaceholders($str, $array, $to = '') {
+		if (is_array($array)) {
+			foreach ($array as $key => $value) {
+				$str = str_replace('{{'.$key.'}}', $value, $str);
+			}
+		} else {
+			$str = str_replace('{{'.$array.'}}', $to, $str);
+		}
+
+		return $str;
 	}
 
 	public function loadView($path) {
