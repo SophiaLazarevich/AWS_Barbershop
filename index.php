@@ -1,10 +1,13 @@
 <?php
 
-require_once 'config/config.php';
-require_once 'core/db.class.php';
-require_once 'core/loader.class.php';
+require_once __DIR__.'/config/config.php';
+require_once __DIR__.'/core/Db.class.php';
+require_once __DIR__.'/core/Router.class.php';
+require_once __DIR__.'/core/Loader.class.php';
+require_once __DIR__.'/view/UserTemplate.class.php';
+require_once __DIR__.'/view/Main.class.php';
 
-@ini_set('display_errors', 0);
+@ini_set('display_errors', 1);
 header('Content-Type: text/html; charset=UTF-8');
 
 if (!isset($DB_CONNECT_PARAM) || !is_array($DB_CONNECT_PARAM)) {
@@ -13,7 +16,27 @@ if (!isset($DB_CONNECT_PARAM) || !is_array($DB_CONNECT_PARAM)) {
 }
 
 $db     = new DB($DB_CONNECT_PARAM);
+$router = new Router();
 $loader = new Loader();
+
+$router->map('GET', '/', 'main#render', 'main');
+$match  = $router->match();
+
+$call   = explode('#', $match['target']);
+if ($match && is_callable(array($call[0], $call[1]))) {
+	$classname = ucfirst($call[0]);
+	$$call[0]  = new $classname($db, $router, $loader);
+	call_user_func_array(array($$call[0], $call[1]), $match['params']); 
+} else {
+	// no route was matched
+	header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found");
+	print '404 Not Found';
+	die();
+}
+
+// print $router->generate('main');
+
+die();
 
 $ajaxHeader = filter_input(
 	INPUT_SERVER,

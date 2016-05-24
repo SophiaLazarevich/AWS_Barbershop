@@ -1,3 +1,7 @@
+(function (window) {
+
+})(window);
+
 $(function() {
 	if ($.jGrowl) {
 		$.jGrowl.defaults.pool = 3;
@@ -9,7 +13,7 @@ $(function() {
 		$
 			.post('', {'id': id, 'action': action})
 			.done(function (html) {
-				$.jGrowl(html);
+				$.jGrowl(html, {sticky: true});
 			})
 			.fail(function (html) {
 				$.jGrowl(html, {

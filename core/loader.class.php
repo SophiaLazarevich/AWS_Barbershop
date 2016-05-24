@@ -41,9 +41,9 @@ class Loader
 	}
 
 	public function loadTable($array, $headers = null) {
+		$strings = null;
 		$cells   = null;
 		$header  = null;
-		$strings = null;
 
 		foreach ($array as $value) {
 			$cells = null;

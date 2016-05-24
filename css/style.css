@@ -5,13 +5,20 @@ html, body {
 }
 
 body {
-	padding-top: 60px;
+	padding-top: 52px;
+}
+
+.container {
+	width: 770px;
 }
 
 table {
 	font-size: 14px;
-	margin: 10px;
 	border: 1px solid #ddd;
+}
+
+table.table {
+	margin: 10px 0;
 }
 
 td:nth-child(1) {
@@ -41,7 +48,7 @@ td:nth-child(1) {
 	margin: 0;
 	border: 0;
 	border-radius: 4px;
-	min-height: 34px;
+	min-height: 50px;
 	color: #000;
 }
 
@@ -77,6 +84,7 @@ td:nth-child(1) {
 
 .jGrowl-notification .jGrowl-close {
 	color: #000;
+	font-size: 18px;
 }
 
 .jGrowl-notification h3,
