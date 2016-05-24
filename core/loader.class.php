@@ -1,14 +1,11 @@
 <?php
 
 /**
-* azaazazaz
+* 
 */
 class Loader
 {
-	function __construct()
-	{
-		
-	}
+	function __construct() {}
 
 	public function setPlaceholders($str, $array, $to = '') {
 		if (is_array($array)) {
