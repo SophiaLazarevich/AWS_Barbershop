@@ -15,8 +15,12 @@ if (!isset($DB_CONNECT_PARAM) || !is_array($DB_CONNECT_PARAM)) {
 $db     = new DB($DB_CONNECT_PARAM);
 $loader = new Loader();
 
-$ajaxHeader = filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH', FILTER_SANITIZE_SPECIAL_CHARS);
-$POST   = filter_input_array(INPUT_POST);
+$ajaxHeader = filter_input(
+	INPUT_SERVER,
+	'HTTP_X_REQUESTED_WITH',
+	FILTER_SANITIZE_SPECIAL_CHARS
+);
+$POST       = filter_input_array(INPUT_POST);
 $postAction = $POST['action'];
 
 if(!empty($ajaxHeader) && strtolower($ajaxHeader) == 'xmlhttprequest') {
@@ -26,8 +30,10 @@ if(!empty($ajaxHeader) && strtolower($ajaxHeader) == 'xmlhttprequest') {
 			$action = 'удалена';
 			break;
 		case 'edit':
-		default:
 			$action = 'изменена';
+			break;
+		default:
+			$action = 'не изменена<br>Причина: неизвестное действие';
 			break;
 	}
 
@@ -35,9 +41,9 @@ if(!empty($ajaxHeader) && strtolower($ajaxHeader) == 'xmlhttprequest') {
 	$output = $loader->setPlaceholders(
 		$output,
 		array(
+			'postAction' => $postAction,
 			'id'         => $POST['id'],
-			'action'     => $action,
-			'postAction' => $postAction
+			'action'     => $action
 		)
 	);
 
