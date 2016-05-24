@@ -16,11 +16,11 @@
 		</div>
 	</div>
 	<div class="container">
-{{customer}}
+{{render}}
 	</div>
-	<script type="text/javascript" src="/assets/js/matreshka.min.js"></script>
 	<script type="text/javascript" src="/assets/js/jquery-2.2.3.min.js"></script>
 	<script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery.dform-1.1.0.js"></script>
 	<script type="text/javascript" src="/assets/js/jquery.jgrowl.min.js"></script>
 	<script type="text/javascript" src="/assets/js/main.js"></script>
 </body>

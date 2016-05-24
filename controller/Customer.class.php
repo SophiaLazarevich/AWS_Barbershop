@@ -3,7 +3,7 @@
 /**
 * 
 */
-class Main extends UserTemplate {
+class Customer extends UserTemplate {
 	public function render() {
 		$customer = $this->db->select(
 			'customer',
@@ -16,12 +16,13 @@ class Main extends UserTemplate {
 				'customer.id(i)',
 				'customer.name(b)',
 				'about.type(t)',
-				'customer.age (a)'
+				'customer.age(a)'
 			)
 		);
 
-		$placeholders = array(
-			'customer' => $this->loader->loadTable(
+		$this->placeholders = array(
+			'render' => $this->loader->loadTable(
+				'customer',
 				$customer,
 				array(
 					'№',
@@ -33,13 +34,6 @@ class Main extends UserTemplate {
 				)
 			)
 		);
-
-		$this->output  = $this->loader->setPlaceholders(
-			$this->output,
-			$placeholders
-		);
-
-		$this->output .= $this->loader->loadView('form/edit');
 
 		parent::render();
 	}

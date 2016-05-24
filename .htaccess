@@ -3,7 +3,7 @@ Options +FollowSymLinks
 RewriteEngine On
 # Если файл не существует
 RewriteCond %{REQUEST_FILENAME} !-f
-# И расширение файла не соответсвует тому, что представленно в этом списке
+# И расширение файла не соответствует тому, что представленно в этом списке
 RewriteCond %{REQUEST_FILENAME} !\.(cgi)|(ico)|(jpg)|(gif)|(png)|(css)|(js)|(php)|(html)|(htm)|(txt)|(zip)|(js)|(eot)|(woff)|(ttf)$
 # Перенаправлять запрос на index.php
 RewriteRule . index.php [L]

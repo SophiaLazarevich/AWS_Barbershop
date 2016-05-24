@@ -1,4 +1,6 @@
 <?php
+
+	// Параметры подключения к базе данных
 	$DB_CONNECT_PARAM = array(
 		'database_type' => 'mysql',
 		'charset'       => 'UTF8',
