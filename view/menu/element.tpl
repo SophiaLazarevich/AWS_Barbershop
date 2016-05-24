@@ -1,1 +1,1 @@
-				<li{{isActive}}><a href="{{url}}">{{name}}</a></li>
+					<li{{isActive}}><a href="{{url}}">{{name}}</a></li>

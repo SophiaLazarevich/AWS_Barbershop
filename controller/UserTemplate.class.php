@@ -23,7 +23,7 @@ class UserTemplate {
 		$this->loader   =& $loader;
 		$this->urlMatch = $this->router->match();
 
-		foreach ($this->router->routes as $route) {
+		foreach ($this->router->routes as $route) { //отвечает за переключение между таблицами
 			$menyElement = null;
 
 			if (isset($route[3]) && !empty($route[3]) && !is_callable($route[2])) {

@@ -4,7 +4,7 @@
 	"html"  : [
 		{
 			"type"  : "label",
-			"for"   : "number",
+			"for"   : "{{id}}",
 			"class" : "col-sm-{{labelWidth}} control-label",
 			"html"  : "{{labelName}}"
 		},

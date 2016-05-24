@@ -6,7 +6,7 @@
 class Customer extends UserTemplate {
 	protected $table = 'customer';
 
-	public function controller() {
+	public function controller() { //форма добавления полей
 		$this->fields = array(
 			'i' => array(
 				'type'       => 'id',
@@ -32,11 +32,11 @@ class Customer extends UserTemplate {
 				'labelName' => 'Возраст',
 				'labelWidth' => 3,
 				'fieldWidth' => 9,
-				'fieldValue' => 18,
+				'fieldValue' => 234,
 			),
 		);
 
-		$this->query  = $this->db->select(
+		$this->query  = $this->db->select( //запрос к БД, представляет из себя простейшую модель
 			$this->table,
 			array(
 				'[><]about' => array(
@@ -51,7 +51,7 @@ class Customer extends UserTemplate {
 			)
 		);
 
-		$this->headers = array(
+		$this->headers = array( //задаются названия столбцов
 			'№',
 			'ФИО',
 			'Длина волос',
