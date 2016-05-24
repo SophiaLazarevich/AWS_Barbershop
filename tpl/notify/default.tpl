@@ -1,3 +1,3 @@
-<div class="notyfy notify-{{postAction}}">
-	<h3>Запись с номером {{id}} {{action}}</h3>
+<div class="notyfy notify-{{action}}">
+	<h4>Запись с номером {{id}}{{reason}}</h4>
 </div>

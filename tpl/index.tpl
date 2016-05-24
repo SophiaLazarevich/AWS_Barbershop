@@ -3,9 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>АРМ «Парикмахерская»</title>
-	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/jquery.jgrowl.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/jquery.jgrowl.min.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
 </head>
 <body>
 	<div class="navbar navbar-default navbar-fixed-top">
@@ -18,10 +18,10 @@
 	<div class="container">
 {{customer}}
 	</div>
-	<script type="text/javascript" src="/js/matreshka.min.js"></script>
-	<script type="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
-	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/js/jquery.jgrowl.min.js"></script>
-	<script type="text/javascript" src="/js/main.js"></script>
+	<script type="text/javascript" src="/assets/js/matreshka.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery-2.2.3.min.js"></script>
+	<script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery.jgrowl.min.js"></script>
+	<script type="text/javascript" src="/assets/js/main.js"></script>
 </body>
 </html>
