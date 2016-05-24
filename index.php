@@ -111,12 +111,13 @@ if (is_string($match['target']) && strpos($match['target'], '#') !== false) {
 } elseif (is_object($match['target'])) {
 	call_user_func_array($match['target'], $match['params']); // вместо объекта и метода передается только объект (анонимная функция)
 } else {
-	header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found");
+	header("{$_SERVER['SERVER_PROTOCOL']} 200 OK");
 	$output = $loader->setPlaceholders(
 		$loader->loadView('index'),
 		array(
-			'menu'   => '',
-			'render' => $loader->loadView('errors/404'),
+			'menu'    => null,
+			'render'  => $loader->loadView('errors/404'),
+			'dbCount' => null,
 		)
 	);
 

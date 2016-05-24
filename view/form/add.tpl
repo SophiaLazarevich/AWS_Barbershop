@@ -54,6 +54,7 @@
 								{
 									"type"         : "button",
 									"class"        : "btn btn-success",
+									"data-action"  : "add",
 									"html"         : "<i class=\"glyphicon glyphicon-ok\"></i> Сохранить"
 								},
 								{

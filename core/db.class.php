@@ -41,6 +41,8 @@ class DB
 
 	protected $debug_mode = false;
 
+	protected $count = 0;
+
 	public function __construct($options = null)
 	{
 		try {
@@ -156,12 +158,12 @@ class DB
 		if ($this->debug_mode)
 		{
 			echo $query;
-
 			$this->debug_mode = false;
 
 			return false;
 		}
 
+		$this->count++;
 		array_push($this->logs, $query);
 
 		return $this->pdo->query($query);
@@ -944,6 +946,10 @@ class DB
 		{
 			return false;
 		}
+	}
+
+	public function getQueriesCount() {
+		return $this->count;
 	}
 
 	public function debug()

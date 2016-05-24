@@ -12,10 +12,10 @@ class UserTemplate {
 	protected $form         = null;
 	protected $table        = null;
 	protected $query        = null;
-	protected $headers      = null;
+	protected $headers      = array();
 	protected $view         = null;
-	protected $output       = null;
 	protected $placeholders = null;
+	protected $output       = null;
 
 	function __construct($db, $router, $loader) {
 		$this->db       =& $db;
@@ -26,13 +26,12 @@ class UserTemplate {
 		foreach ($this->router->routes as $route) {
 			$menyElement = null;
 
-			if (!is_callable($route[2]) && isset($route[3]) && !empty($route[3])) {
+			if (isset($route[3]) && !empty($route[3]) && !is_callable($route[2])) {
 				$isActive = $this->urlMatch['name'] == $route[3]
 					? ' class="active"'
 					: null;
-				$menyElement = $this->loader->loadView('menu/element');
 				$menyElement = $this->loader->setPlaceholders(
-					$menyElement,
+					$this->loader->loadView('menu/element'),
 					array(
 						'isActive' => $isActive,
 						'url'      => $route[1],
@@ -51,12 +50,19 @@ class UserTemplate {
 	public function form($title, $action, $method) {
 		foreach ($this->fields as $key => $value) {
 			$fields = $this->loader->loadView('fields/'.$value['type']);
+
 			$this->form .= $this->loader->setPlaceholders(
 				$fields,
 				array(
-					'labelName'  => $value['labelName'],
-					'labelWidth' => $value['labelWidth'],
-					'fieldWidth' => $value['fieldWidth'],
+					'labelName'    => isset($value['labelName'])  ? $value['labelName']  : null,
+					'labelWidth'   => isset($value['labelWidth']) ? $value['labelWidth'] : null,
+					'fieldWidth'   => isset($value['fieldWidth']) ? $value['fieldWidth'] : null,
+					'fieldOptions' => isset($value['fieldOptions']) && is_array($value['fieldOptions'])
+						// ? 
+					,
+					'fieldId'      => $key,
+					'fieldName'    => $key,
+					'fieldValue'   => isset($value['fieldValue']) ? $value['fieldValue'] : null,
 				)
 			);
 		}
@@ -92,8 +98,9 @@ class UserTemplate {
 		}
 
 		$this->placeholders = array(
-			'menu'   => $this->menu,
-			'render' => $this->loader->loadTable($this->table, $this->query, $this->headers)
+			'menu'    => $this->menu,
+			'render'  => $this->loader->loadTable($this->table, $this->query, $this->headers),
+			'dbCount' => 'Количество запросов к БД: '.$this->db->getQueriesCount(),
 		);
 
 		$this->output  = $this->loader->setPlaceholders($this->output, $this->placeholders);

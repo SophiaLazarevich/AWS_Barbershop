@@ -66,7 +66,7 @@ EOT
 			}
 			$cells .= <<< EOT
 						<td>
-							<a href="#" data-table="{$name}" data-action="edit" data-id="{$value['i']}" data-toggle="modal" data-target="#modal">
+							<a href="#" data-table="{$name}" data-action="edit" data-id="{$value['i']}" data-toggle="modal" data-target="#modalAdd">
 								<i class="glyphicon glyphicon-pencil text-info"></i>
 							</a>
 						</td>

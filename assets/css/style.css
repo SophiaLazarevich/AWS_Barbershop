@@ -9,7 +9,7 @@ body {
 }
 
 .container {
-	width: 870px;
+	width: 900px;
 }
 
 .margin-bottom {
@@ -106,4 +106,20 @@ td:nth-child(1) {
 	font-size: 14px;
 	line-height: 1.42857143;
 	color: #555;
+}
+
+html {
+	position: relative;
+	min-height: 100%;
+}
+
+body {
+	margin-bottom: 125px;
+}
+
+.sticky {
+	position: absolute;
+	bottom: 0;
+	height: 125px;
+	width: 100%;
 }

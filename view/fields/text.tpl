@@ -14,10 +14,10 @@
 			"html"  : [
 				{
 					"type"  : "input",
-					"id"    : "b",
-					"name"  : "b",
+					"id"    : "{{fieldId}}",
+					"name"  : "{{fieldName}}",
 					"class" : "form-control",
-					"html"  : ""
+					"value" : "{{fieldValue}}"
 				}
 			]
 		}

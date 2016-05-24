@@ -67,7 +67,7 @@ $(function() {
 				case 'delete':
 					if (confirm("Удалить запись?")) {
 						getNotification(
-							'DELELE',
+							'DELETE',
 							$(this).data('table'),
 							$(this).data('action'),
 							$(this).data('id')

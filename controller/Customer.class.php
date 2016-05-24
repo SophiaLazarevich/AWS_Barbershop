@@ -32,6 +32,7 @@ class Customer extends UserTemplate {
 				'labelName' => 'Возраст',
 				'labelWidth' => 3,
 				'fieldWidth' => 9,
+				'fieldValue' => 18,
 			),
 		);
 

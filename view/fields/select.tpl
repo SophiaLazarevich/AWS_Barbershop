@@ -14,8 +14,8 @@
 			"html"  : [
 				{
 					"type"    : "select",
-					"id"      : "t",
-					"name"    : "t",
+					"id"      : "{{fieldId}}",
+					"name"    : "{{fieldName}}",
 					"class"   : "form-control",
 					"options" : {
 						"0" : "Выбрать",

@@ -14,7 +14,7 @@
 			"html"  : [
 				{
 					"type"  : "span",
-					"id"    : "number",
+					"id"    : "{{id}}",
 					"class" : "form-text",
 					"html"  : "Присваивается автоматически"
 				}
