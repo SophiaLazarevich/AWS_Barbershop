@@ -5,7 +5,7 @@ class Router {
 	/**
 	 * @var array Array of all routes (incl. named routes).
 	 */
-	protected $routes = array();
+	public $routes = array();
 
 	/**
 	 * @var array Array of all named routes.
@@ -252,7 +252,8 @@ class Router {
 				return array(
 					'target' => $target,
 					'params' => $params,
-					'name' => $name
+					'name'   => $name,
+					'method' => $requestMethod,
 				);
 			}
 		}

@@ -6,218 +6,99 @@ class UserTemplate {
 	public $db              = null;
 	public $router          = null;
 	public $loader          = null;
+	public $fields          = array();
+	public $urlMatch        = null;
+	protected $menu         = null;
+	protected $form         = null;
 	protected $table        = null;
 	protected $query        = null;
+	protected $headers      = null;
 	protected $view         = null;
 	protected $output       = null;
 	protected $placeholders = null;
 
 	function __construct($db, $router, $loader) {
-		$this->db     =& $db;
-		$this->router =& $router;
-		$this->loader =& $loader;
+		$this->db       =& $db;
+		$this->router   =& $router;
+		$this->loader   =& $loader;
+		$this->urlMatch = $this->router->match();
+
+		foreach ($this->router->routes as $route) {
+			$menyElement = null;
+
+			if (!is_callable($route[2]) && isset($route[3]) && !empty($route[3])) {
+				$isActive = $this->urlMatch['name'] == $route[3]
+					? ' class="active"'
+					: null;
+				$menyElement = $this->loader->loadView('menu/element');
+				$menyElement = $this->loader->setPlaceholders(
+					$menyElement,
+					array(
+						'isActive' => $isActive,
+						'url'      => $route[1],
+						'name'     => $route[3],
+					)
+				);
+			}
+			$this->menu .= $menyElement;
+		}
 
 		$this->output = !empty($view)
 			? $this->loader->loadView($view)
 			: $this->loader->loadView('index');
 	}
 
-	public function form() {
-		return <<< EOT
-<script type="text/javascript">
-	$(function() {
-		$.dform.options.prefix = null;
+	public function form($title, $action, $method) {
+		foreach ($this->fields as $key => $value) {
+			$fields = $this->loader->loadView('fields/'.$value['type']);
+			$this->form .= $this->loader->setPlaceholders(
+				$fields,
+				array(
+					'labelName'  => $value['labelName'],
+					'labelWidth' => $value['labelWidth'],
+					'fieldWidth' => $value['fieldWidth'],
+				)
+			);
+		}
 
-		$('#modal').dform({
-			'type'  : 'div',
-			'class' : 'fade',
-			'html'  : [
-				{
-					'type'  : 'div',
-					'class' : 'modal-dialog',
-					'html'  : [
-						{
-							'type'  : 'div',
-							'class' : 'modal-content',
-							'html'  : [
-								{
-									'type'  : 'div',
-									'class' : 'modal-header',
-									'html'  : [
-										{
-											'type'         : 'button',
-											'class'        : 'close',
-											'data-dismiss' : 'modal',
-											'area-label'   : 'Закрыть',
-											'html'         : [
-												{
-													'type'        : 'span',
-													'aria-hidden' : 'true',
-													'html'        : '×'
-												}
-											]
-										},
-										{
-											'type'  : 'h4',
-											'class' : 'modal-title',
-											'html'  : 'Добавить'
-										}
-									]
-								},
-								{
-									'type'  : 'div',
-									'class' : 'modal-body',
-									'html'  : [
-										{
-											'type'   : 'form',
-											'class'  : 'form-horizontal',
-											'action' : '',
-											'method' : 'post',
-											'html'   : [
-												{
-													'type'  : 'div',
-													'class' : 'form-group',
-													'html'  : [
-														{
-															'type'  : 'label',
-															'for'   : 'number',
-															'class' : 'col-sm-2 control-label',
-															'html'  : '№'
-														},
-														{
-															'type'  : 'div',
-															'class' : 'col-sm-10',
-															'html'  : [
-																{
-																	'type'  : 'span',
-																	'id'    : 'number',
-																	'class' : 'form-text',
-																	'html'  : 'Присваивается автоматически'
-																}
-															]
-														}
-													]
-												},
-												{
-													'type'  : 'div',
-													'class' : 'form-group',
-													'html'  : [
-														{
-															'type'  : 'label',
-															'for'   : 'b',
-															'class' : 'col-sm-2 control-label',
-															'html'  : 'ФИО'
-														},
-														{
-															'type'  : 'div',
-															'class' : 'col-sm-10',
-															'html'  : [
-																{
-																	'type'  : 'input',
-																	'id'    : 'b',
-																	'name'  : 'b',
-																	'class' : 'form-control',
-																	'html'  : ''
-																}
-															]
-														}
-													]
-												},
-												{
-													'type'  : 'div',
-													'class' : 'form-group',
-													'html'  : [
-														{
-															'type'  : 'label',
-															'for'   : 't',
-															'class' : 'col-sm-2 control-label',
-															'html'  : 'Длина волос'
-														},
-														{
-															'type'  : 'div',
-															'class' : 'col-sm-10',
-															'html'  : [
-																{
-																	'type'    : 'select',
-																	'id'      : 't',
-																	'name'    : 't',
-																	'class'   : 'form-control',
-																	'options' : {
-																		0 : 'Выбрать',
-																		1 : 'короткие',
-																		2 : 'средняя длина',
-																		3 : 'длинные'
-																	}
-																}
-															]
-														}
-													]
-												},
-												{
-													'type'  : 'div',
-													'class' : 'form-group',
-													'html'  : [
-														{
-															'type'  : 'label',
-															'for'   : 'a',
-															'class' : 'col-sm-2 control-label',
-															'html'  : 'Возраст'
-														},
-														{
-															'type'  : 'div',
-															'class' : 'col-sm-10',
-															'html'  : [
-																{
-																	'type'  : 'number',
-																	'id'    : 'a',
-																	'name'  : 'a',
-																	'class' : 'form-control',
-																	'html'  : ''
-																}
-															]
-														}
-													]
-												},
-											]
-										}
-									]
-								},
-								{
-									'type'  : 'div',
-									'class' : 'modal-footer',
-									'html'  : [
-										{
-											'type'         : 'button',
-											'class'        : 'btn btn-success',
-											'html'         : '<i class="glyphicon glyphicon-ok"></i> Сохранить'
-										},
-										{
-											'type'         : 'button',
-											'class'        : 'btn btn-danger',
-											'data-dismiss' : 'modal',
-											'html'         : '<i class="glyphicon glyphicon-remove"></i> Отмена'
-										}
-									]
-								}
-							]
-						},
-					]
-				},
-			]
-		});
-	});
-</script>
-EOT;
+		$form = $this->loader->loadView('form/add');
+		return $this->loader->setPlaceholders(
+			$form,
+			array(
+				'title'  => $title,
+				'action' => $action,
+				'method' => $method,
+				'fields' => $this->form,
+			)
+		);
 	}
 
-	public function controller() {
-		return $this->render();
-	}
+	public function controller() {}
 
 	public function render() {
-		$this->output  = $this->loader->setPlaceholders($this->output, $this->placeholders);
-		$this->output .= $this->loader->loadView('form/edit');
+		$this->controller();
 
-		print $this->output . $this->form();
+		if (is_array($this->urlMatch['params']) && !empty($this->urlMatch['params'])) {
+			switch ($this->urlMatch['method']) {
+				case 'GET':
+					header('Content-type: application/json; charset=UTF-8');
+					print $this->form('Добавить', '/api/'.$this->table.'/add/', 'POST');
+					die();
+					break;
+				default:
+					// print_r($this->urlMatch);
+					break;
+			}
+		}
+
+		$this->placeholders = array(
+			'menu'   => $this->menu,
+			'render' => $this->loader->loadTable($this->table, $this->query, $this->headers)
+		);
+
+		$this->output  = $this->loader->setPlaceholders($this->output, $this->placeholders);
+		$this->output .= $this->loader->loadView('form/default');
+
+		print $this->output;
 	}
 }

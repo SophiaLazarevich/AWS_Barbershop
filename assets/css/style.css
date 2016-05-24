@@ -16,6 +16,10 @@ body {
 	margin-bottom: 10px;
 }
 
+.divider {
+	height: 20px;
+}
+
 table {
 	font-size: 14px;
 	border: 1px solid #ddd;

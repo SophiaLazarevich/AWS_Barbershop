@@ -4,9 +4,11 @@
 * 
 */
 class Hairstyle extends UserTemplate {
-	public function render() {
-		$hairstyle = $this->db->select(
-			'hairstyle',
+	protected $table = 'hairstyle';
+
+	public function controller() {
+		$this->query = $this->db->select(
+			$this->table,
 			array(
 				'id(i)',
 				'name(b)',
@@ -15,21 +17,13 @@ class Hairstyle extends UserTemplate {
 			)
 		);
 
-		$this->placeholders = array(
-			'render' => $this->loader->loadTable(
-				'hairstyle',
-				$hairstyle,
-				array(
-					'№',
-					'Название',
-					'Цена',
-					'Время',
-					'',
-					'',
-				)
-			)
+		$this->headers = array(
+			'№',
+			'Название',
+			'Цена',
+			'Время',
+			'',
+			'',
 		);
-
-		parent::render();
 	}
 }

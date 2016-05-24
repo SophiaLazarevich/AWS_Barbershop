@@ -4,9 +4,11 @@
 * 
 */
 class Master extends UserTemplate {
-	public function render() {
-		$master = $this->db->select(
-			'master',
+	protected $table = 'master';
+
+	public function controller() {
+		$this->query = $this->db->select(
+			$this->table,
 			array(
 				'id(i)',
 				'name(b)',
@@ -14,20 +16,12 @@ class Master extends UserTemplate {
 			)
 		);
 
-		$this->placeholders = array(
-			'render' => $this->loader->loadTable(
-				'master',
-				$master,
-				array(
-					'№',
-					'ФИО',
-					'Квалификация',
-					'',
-					'',
-				)
-			)
+		$this->headers = array(
+			'№',
+			'ФИО',
+			'Квалификация',
+			'',
+			'',
 		);
-
-		parent::render();
 	}
 }

@@ -29,7 +29,7 @@ class Loader
 			// Кэшируем вывод в буфер
 			ob_start();
 			// Читаем файл из ФС
-			include_once $path;
+			include $path;
 			// Присваиваем вывод переменной
 			$output = ob_get_clean();
 
@@ -38,8 +38,8 @@ class Loader
 				// Перебираем каждое вхождение
 				foreach ($includes[0] as $key => $value) {
 					/*
-					 * Делаем рекурсивный вызов этой же функции c параметрами для 
-					 * Заменяем каждое вхождение на 
+					 * Делаем рекурсивный вызов этой же функции c параметрами
+					 * Заменяем каждый вызов include на представление, которое ему соответствует
 					 */
 					$output = str_replace($value, $this->loadView($includes[1][$key]), $output);
 				}
@@ -104,7 +104,7 @@ EOT;
 
 		$output = <<< EOT
 			<div class="margin-bottom pull-right">
-				<a class="btn btn-success" href="#" data-toggle="modal" data-target="#modal"><i class="glyphicon glyphicon-plus"></i> Добавить</a>
+				<a class="btn btn-success" href="#" data-action="add" data-table="{$name}"><i class="glyphicon glyphicon-plus"></i> Добавить</a>
 			</div>
 			<table class="table table-responsive table-striped table-hover margin-bottom">
 {$header}

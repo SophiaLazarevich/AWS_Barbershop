@@ -4,9 +4,39 @@
 * 
 */
 class Customer extends UserTemplate {
-	public function render() {
-		$customer = $this->db->select(
-			'customer',
+	protected $table = 'customer';
+
+	public function controller() {
+		$this->fields = array(
+			'i' => array(
+				'type'       => 'id',
+				'labelName'  => '№',
+				'labelWidth' => 3,
+				'fieldWidth' => 9,
+			),
+			'b' => array(
+				'type'      => 'text',
+				'labelName' => 'ФИО',
+				'labelWidth' => 3,
+				'fieldWidth' => 9,
+			),
+			't' => array(
+				'type'      => 'select',
+				'labelName' => 'Длина волос',
+				'labelWidth' => 3,
+				'fieldWidth' => 9,
+				'options'   => 'SELECT * FROM `about` ORDER BY `id` ASC;'
+			),
+			'a' => array(
+				'type'      => 'number',
+				'labelName' => 'Возраст',
+				'labelWidth' => 3,
+				'fieldWidth' => 9,
+			),
+		);
+
+		$this->query  = $this->db->select(
+			$this->table,
 			array(
 				'[><]about' => array(
 					'type' => 'id'
@@ -20,21 +50,13 @@ class Customer extends UserTemplate {
 			)
 		);
 
-		$this->placeholders = array(
-			'render' => $this->loader->loadTable(
-				'customer',
-				$customer,
-				array(
-					'№',
-					'ФИО',
-					'Длина волос',
-					'Возраст',
-					'',
-					'',
-				)
-			)
+		$this->headers = array(
+			'№',
+			'ФИО',
+			'Длина волос',
+			'Возраст',
+			'',
+			'',
 		);
-
-		parent::render();
 	}
 }

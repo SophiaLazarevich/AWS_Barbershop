@@ -4,10 +4,10 @@
 * 
 */
 class Order extends UserTemplate {
-	public $table = 'order';
+	protected $table = 'order';
 
-	public function render() {
-		$order = $this->db->select(
+	public function controller() {
+		$this->query = $this->db->select(
 			$this->table,
 			array(
 				'[><]master'    => array(
@@ -30,23 +30,15 @@ class Order extends UserTemplate {
 			)
 		);
 
-		$this->placeholders = array(
-			'render' => $this->loader->loadTable(
-				$this->table,
-				$order,
-				array(
-					'№',
-					'ФИО клиента',
-					'ФИО мастера',
-					'Прическа',
-					'Время',
-					'Дата',
-					'',
-					''
-				)
-			)
+		$this->headers = array(
+			'№',
+			'ФИО клиента',
+			'ФИО мастера',
+			'Прическа',
+			'Время',
+			'Дата',
+			'',
+			''
 		);
-
-		parent::render();
 	}
 }
