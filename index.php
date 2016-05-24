@@ -1,17 +1,14 @@
 <?php
 
-include_once 'core/db.class.php';
-include_once 'core/loader.class.php';
+require_once 'config/config.php';
+require_once 'core/db.class.php';
+require_once 'core/loader.class.php';
 
 @ini_set('display_errors', 0);
 header('Content-Type: text/html; charset=UTF-8');
 
-$db     = new DB();
+$db     = new DB($DB_CONNECT_PARAM);
 $loader = new Loader();
-$hairstyle = null;
-$master    = null;
-$tr        = null;
-$data      = null;
 
 $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
 if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
@@ -19,7 +16,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 		case 'delete':
 			$action = 'удалена.';
 
-			$db->delete('customer', $id);
+			$db->delete('customer', array('id' => $id));
 			break;
 		case 'edit':
 		default:
@@ -43,18 +40,53 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 
 $output = $loader->loadView('index');
 
-$output = $loader->setPlaceholders(
-	$output,
+$customers = $db->select(
 	'customer',
-	$db->show('SELECT
-			`customer`.`id`   AS `i`,
-			`customer`.`name` AS `b`,
-			`about`.`type`    AS `t`,
-			`customer`.`age`  AS `a`
-		FROM `customer`
-		INNER JOIN `about`
-		ON `customer`.`type` = `about`.`id`;'
+	array(
+		'[><]about' => array(
+			'type' => 'id'
+		),
+	),
+	array(
+		'customer.id(i)',
+		'customer.name(b)',
+		'about.type(t)',
+		'customer.age (a)'
 	)
 );
 
+// print_r($customers);
+$data = null;
+$tr   = null;
+foreach ($customers as $value) {
+	$data = null;
+	foreach ($value as $v) {
+		$data .= <<< EOT
+			<td>{$v}</td>
+EOT;
+	}
+	$data .= <<< EOT
+			<td><a href="#" data-id="{$value['i']}" data-action="edit">Изменить</a></td>
+			<td><a href="#" data-id="{$value['i']}" data-action="delete">Удалить</a></td>
+EOT;
+	$tr .= <<< EOT
+		<tr>
+{$data}
+		</tr>
+EOT;
+}
+
+$customers = <<< EOT
+<table border="1">
+{$tr}
+	</table>
+EOT;
+
+$output = $loader->setPlaceholders(
+	$output,
+	'customer',
+	$customers
+);
+
 print $output;
+// var_dump($db->log());
