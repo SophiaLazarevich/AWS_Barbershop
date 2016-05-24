@@ -31,7 +31,7 @@ if(!empty($ajaxHeader) && strtolower($ajaxHeader) == 'xmlhttprequest') {
 			break;
 	}
 
-	$output = $loader->loadView('notify/'.$postAction);
+	$output = $loader->loadView('notify/default');
 	$output = $loader->setPlaceholders(
 		$output,
 		array(
@@ -62,54 +62,20 @@ $customers = $db->select(
 	)
 );
 
-$data = null;
-$tr   = null;
-foreach ($customers as $value) {
-	$data = null;
-	foreach ($value as $v) {
-		$data .= <<< EOT
-				<td>{$v}</td>
-EOT
-.PHP_EOL;
-	}
-	$data .= <<< EOT
-				<td>
-					<a href="#" data-id="{$value['i']}" data-action="edit"><i class="glyphicon glyphicon-pencil text-info"></i></a>
-				</td>
-				<td>
-					<a href="#" data-id="{$value['i']}" data-action="delete"><i class="glyphicon glyphicon-remove text-danger"></i></a>
-				</td>
-EOT;
-	$tr .= <<< EOT
-			<tr>
-{$data}
-			</tr>
-EOT
-.PHP_EOL;
-}
-
-$customers = <<< EOT
-<table class="table table-responsive table-striped table-hover">
-		<thead>
-			<tr>
-				<td class="text-center">№</td>
-				<td class="text-center">ФИО</td>
-				<td>Длина волос</td>
-				<td>Возраст</td>
-				<td></td>
-				<td></td>
-			</tr>
-		</thead>
-		<tbody>
-{$tr}
-		</tbody>
-	</table>
-EOT;
-
 $output = $loader->setPlaceholders(
 	$output,
 	array(
-		'customer' => $customers,
+		'customer' => $loader->loadTable(
+			$customers,
+			array(
+				'№',
+				'ФИО',
+				'Длина волос',
+				'Возраст',
+				'',
+				'',
+			)
+		)
 	)
 );
 
