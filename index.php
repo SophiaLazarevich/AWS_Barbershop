@@ -15,11 +15,11 @@ if (!isset($DB_CONNECT_PARAM) || !is_array($DB_CONNECT_PARAM)) {
 $db     = new DB($DB_CONNECT_PARAM);
 $loader = new Loader();
 
-$isAjax = filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH', FILTER_SANITIZE_SPECIAL_CHARS);
+$ajaxHeader = filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH', FILTER_SANITIZE_SPECIAL_CHARS);
 $POST   = filter_input_array(INPUT_POST);
 $postAction = $POST['action'];
 
-if(!empty($isAjax) && strtolower($isAjax) == 'xmlhttprequest') {
+if(!empty($ajaxHeader) && strtolower($ajaxHeader) == 'xmlhttprequest') {
 	switch ($postAction) {
 		case 'delete':
 			// $db->delete('customer', array('id' => $POST['id']));
@@ -68,30 +68,49 @@ foreach ($customers as $value) {
 	$data = null;
 	foreach ($value as $v) {
 		$data .= <<< EOT
-			<td>{$v}</td>
-EOT;
+				<td>{$v}</td>
+EOT
+.PHP_EOL;
 	}
 	$data .= <<< EOT
-			<td><a href="#" data-id="{$value['i']}" data-action="edit"><i class="glyphicon glyphicon-pencil text-info"></a></td>
-			<td><a href="#" data-id="{$value['i']}" data-action="delete"><i class="glyphicon glyphicon-remove text-danger"></i></a></td>
+				<td>
+					<a href="#" data-id="{$value['i']}" data-action="edit"><i class="glyphicon glyphicon-pencil text-info"></i></a>
+				</td>
+				<td>
+					<a href="#" data-id="{$value['i']}" data-action="delete"><i class="glyphicon glyphicon-remove text-danger"></i></a>
+				</td>
 EOT;
 	$tr .= <<< EOT
-		<tr>
+			<tr>
 {$data}
-		</tr>
-EOT;
+			</tr>
+EOT
+.PHP_EOL;
 }
 
 $customers = <<< EOT
-<table class="table table-striped table-hover">
+<table class="table table-responsive table-striped table-hover">
+		<thead>
+			<tr>
+				<td class="text-center">№</td>
+				<td class="text-center">ФИО</td>
+				<td>Длина волос</td>
+				<td>Возраст</td>
+				<td></td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody>
 {$tr}
+		</tbody>
 	</table>
 EOT;
 
 $output = $loader->setPlaceholders(
 	$output,
-	'customer',
-	$customers
+	array(
+		'customer' => $customers,
+	)
 );
 
 print $output;
